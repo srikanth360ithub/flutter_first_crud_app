@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import '../screens/product_detail_screen.dart';
 import '../models/product_list_model.dart';
-
 class ProductListViewScreen extends StatefulWidget {
   const ProductListViewScreen({super.key});
 
@@ -53,7 +52,6 @@ class _ProductListViewScreenState extends State<ProductListViewScreen> {
 
     setState(() => isLoading = false);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,10 +72,18 @@ class _ProductListViewScreenState extends State<ProductListViewScreen> {
             if (index < products.length) {
               final product = products[index];
               return ListTile(
-                title: Text(product.title),
-                subtitle: Text(product.description),
-                trailing: Text('\$${product.price.toStringAsFixed(2)}'),
-              );
+                            title: Text(product.title),
+                            subtitle: Text(product.description),
+                            trailing: Text('\$${product.price.toStringAsFixed(2)}'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailPage(productId: product.id),
+                                ),
+                              );
+                            },
+                          );
             } else {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -85,8 +91,17 @@ class _ProductListViewScreenState extends State<ProductListViewScreen> {
               );
             }
           },
+          
         ),
+        
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Add your action here
+      //   },
+      //   child: Icon(Icons.add),
+      // ),
+    // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
